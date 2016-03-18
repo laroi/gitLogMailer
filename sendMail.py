@@ -36,9 +36,7 @@ class Repo:
 class Mailer:
 	def __init__(self, mail_smtp, mail_from, mail_password):
 		self.server = smtplib.SMTP(mail_smtp)
-		print mail_smtp
-		print mail_from
-		print mail_password
+                print 'Hey !!! Mailer ' + str(mail_smtp) + ' is Initialized with ' + str(mail_from)
 		self.server.starttls()
 		self.server.login(mail_from, mail_password)
 	def sendMail(self, recipient, body):
@@ -48,12 +46,11 @@ class Mailer:
 		msg['To'] = recipient
 		bdy = MIMEText(body, 'html')
 		msg.attach(bdy)
-		print config.sender['Subject']
-		print config.sender['From']
-		print recipient 
+                print 'Sending mail to '+ str(recipient)
 		self.server.sendmail(config.sender['From'], recipient, msg.as_string())
 	def kill(self):
 		self.server.quit()
+                print 'Bye bye ! Quitting Mailer ....'
 
 def getCommitters(dir):
 	committers = subprocess.check_output('/usr/bin/git --git-dir='+dir+' shortlog -sn HEAD | awk \'{print $2}\'', shell=True)
