@@ -1,0 +1,216 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>Ed Web Sprint Reprot</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<style>
+.head{
+    border-bottom:2px solid black;
+}
+
+.repo-table{
+    margin-bottom: 40px;
+}
+tr.log-head td {
+    padding-top:5px;
+    padding-bottom:5px;
+    border-bottom:1px solid black;
+    border-top:1px solid black;
+}
+tr.log-txt td {
+    padding-top:10px;
+    padding-bottom:10px;
+    background-color:#B0E0E6;
+}
+tr.alt-log-txt td{ 
+    padding-top:10px;
+    padding-bottom:10px;
+    background-color:#C1F0F6;
+}
+.log-el {
+    padding:5px;
+    font-family:monospace;
+}
+.log-stat, .log-date {
+    text-align:center;
+}
+.dev-tbl {
+    padding-bottom : 10px;
+    margin-bottom: 30px;
+}
+.main-head {
+	border-bottom:3px solid black;
+}
+.main-head-logo {
+	padding-left:65px;
+}
+.main-head-txt {
+	padding-left:175px;
+	font-family: sans-serif;
+}
+.desc td {
+	padding-left:70px;
+}
+.icon {
+	padding-right:10px;
+	padding-left:10px;
+}
+.log-icon {
+	padding-left:70px;
+}
+.dev-div-right {
+	padding-right:30px;
+}
+.dev-div-left {
+	padding-left:30px;
+}
+.console-graph {
+	background-color:black;
+	font-family: monospace;
+	padding-left: 5px;
+}
+.console-head {
+	background-color:#514f48;
+}
+.terminal-head {
+	height: 23px;
+    	padding-top: 3px;
+	padding-left:5px;
+	width:7% 
+}
+.terminal-head-txt {
+    color: white;
+    font-family: monospace;
+    font-size: 14px;
+}
+.console-head  {
+    -moz-border-radius-top-left:5px;
+    -webkit-border-top-left-radius:5px;
+    border-top-left-radius:5px
+    overflow:hidden
+}
+.console-head  {
+    -moz-border-radius-top-right:5px;
+    -webkit-border-top-right-radius:5px;
+    border-top-right-radius:5px
+}
+
+</style>
+</head>
+<body style="margin: 0; padding: 0;">
+ <table border="0" cellpadding="0" cellspacing="0" width="100%" height="100%" bgcolor="#BFEFFF">
+    <tr><td>
+	<table border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#BFEFFF">
+	    <tr class='main-head' height="50">		
+		<td width = "20%" class='main-head-logo'><img width="60" height= "60" src="{{company_detail.logo}}"/></td>
+		<td width="80%" class='main-head-txt'><h1>{{company_detail.name}} Sprint Report</h1></td>
+	    </tr>    
+	    
+	</table>
+    </td></tr>
+    <tr class="desc" height="50"><td>Hey {{'{{'}} name {{'}}'}},<br> Here is what happend in Ed controls web for last two weeks (from {{startDate}} to {{endDate}})</td></tr>
+    <tr align="center"><td>
+	{% for rep in repo %}
+        <table bgcolor="#7EC0EE"  class='repo-table' cellpadding="0" cellspacing="0" width="90%">
+            <tr class='sub-head'><td align="center">
+	    <table><tr><td class='icon'>
+	    	<img src="{{icons['repo']}}">
+		</td>
+		<td> <b>{{rep.repo_name}}</b></td></tr>
+                </table>
+	    </td></tr>
+            <tr align="center"><td>
+		{% for dev in rep.developer %}
+                <table class='dev-tbl' bgcolor="#7AA9DD" cellpadding="0" cellspacing="0"  width="99%">
+                    <tr class='dev-head' align="left"> <td>
+			<table width="100%">
+			<tr>
+			<td align="left" class='dev-div-left' width="50%"><table><tr>
+			<td class='icon'><img src="{{icons['developer']}}"></td>
+			<td><b>{{dev.developer}}</b></td>
+			</tr></table></td>
+			<td align="right" class='dev-div-right' width="50%"><table><tr>
+			<td class='icon' align="right"><img src="{{icons['commit']}}"> </td>
+			 <td style="font-family:monospace" align="right">{{dev.logs|length}}</td></tr></table></td>
+			 
+			</table>
+		    </td></tr>
+                    <tr align="center"><td>
+			{% if dev.logs|length != 0 %}	
+                        <table bgcolor="#6CA6CD" cellpadding="0" cellspacing="0"   width="99%">
+                            <tr class='log-head'>
+			    <td width="2%" align="middle"><img src="{{icons['no']}}"></td>
+                            <td width="48%" align="left" class= 'log-icon'><img src="{{icons['msg']}}"></td>
+                            <td width="30%" align="left" class='log-icon'><img src="{{icons['link']}}"></td>
+                            <td width="10%" align="middle"><img src="{{icons['progress']}}"></td>
+                            <td width="10%" align="middle"><img src="{{icons['date']}}"></td>
+                            </tr> 
+			    {% for log in dev.logs %}
+			    <tr class={{ loop.cycle('log-txt', 'alt-log-txt') }}>
+			             <td class='log-el log-no'>
+					{{loop.index}}
+				    </td>
+
+				    <td class='log-el log-sub'>
+					{{log.subject}}
+				    </td>
+				    
+				    <td class='log-el log-lin'>
+					 {% if  log.link %} 
+						<a href="{{log.link}}"> {{log.link}} </a> 
+					{% else %}
+						{{log.link}}
+					{% endif %}
+				    </td>
+				    
+				    <td class='log-el log-stat'>
+					{{log.status}}
+				    </td>
+				    
+				    <td class='log-el log-date'>
+					{{log.date}}
+				    </td>
+
+                            </tr>
+			{% endfor %}
+                        </table>
+			{% else %}
+			<tr class='log-txt'>
+			<td class='log-el'>
+			No Activity
+			</td></tr>
+			{% endif %}
+                    </td></tr>
+                </table>
+		{% endfor %}
+            </td></tr>
+	     <!-- repo table ends -->
+	     <!--Graph table starts -->
+	    <tr><td align="center" style="padding-bottom:5px">
+	        <table  border="0" cellpadding="0" cellspacing="0" width="99%"><tr>
+			<td>
+				<table  border="0" cellpadding="0" cellspacing="0" width="100%" class='console-head'><tr>
+					<td class='terminal-head'>
+						<img src="{{icons['close']}}">
+						<img width="19" height="19" src="{{icons['minimize']}}">
+						<img width="19" height="19" src="{{icons['maximize']}}">
+					</td>
+					<td class='terminal-head-txt'>
+		  				ubuntu@ubuntu: ~
+					</td>
+				</tr></table>
+			</td>
+			</tr>
+		<tr>
+		<td class='console-graph'>
+		    {{rep.graph}}
+	        </td></tr></table>
+	    </tr></td>
+	    <!-- Graph table ends-->
+        </table>
+	{% endfor %}
+    </td></tr>
+ </table>
+</body>
+</html>
