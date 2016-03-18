@@ -120,7 +120,7 @@ def getContent():
 				rep.developer = dev_array;
 		repo_array.append(rep)
 		endDate =datetime.date.today()
-		startDate = endDate - datetime.timedelta(days=14)
+		startDate = endDate - datetime.timedelta(days=7)
 	
 	return template.render(repo = repo_array, company_detail=config.company_detail, icons=config.ico, startDate=str(startDate), endDate=str(endDate))
 
