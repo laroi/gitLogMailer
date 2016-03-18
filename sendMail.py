@@ -6,11 +6,7 @@ import datetime
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import config
-#git --git-dir /home/ubuntu/development/edfrontend_v4/.git log --pretty=format:"%s by %cn on %cd " --date="short" --after="2 weeks ago"
-#repos = [{'name': 'Ed Controls Frontend', 'path':'/home/ubuntu/development/edfrontend_v4/.git'}, 
-#	{'name':'Ed Controls Backend', 'path': '/home/ubuntu/development/edbackend/.git'}]
-#devs = ['yusuf', 'shrisha', 'jagadish', 'akbar', 'Maurice', 'Pieter', 'Tom']
-#recipients = [{'name':'Akbar', 'email':'akbar.ali@mobinius.com'}]
+
 repos = config.repos
 devs = config.devs
 recipients = config.recipients
@@ -28,39 +24,18 @@ class Logs:
 		self.link = link
 		self.status = status
 		self.date = date
-	#def __repr__(self):
-        	#return str(self.subject) + ',' + str(self.link) + ',' + str(self.status) + ',' + str(self.date)
 class Developer:
 	def __init__(self, developer, logs=None):
 		self.developer = developer.title()
 		self.logs = logs
-	'''def __repr__(self):
-        	ret_obj = {'developer':'', 'logs':[]}
-		log_arr = []
-		ret_obj['developer'] = self.developer
-		for log in self.logs:
-			log_arr.append(repr(log))
-		ret_obj['logs'] = log_arr
-		return ret_obj '''
-
 class Repo:
 	def __init__(self, repo_name, developer=None, graph=None):
 		self.repo_name = repo_name
 		self.developer = developer
-		self.graph = graph
-	'''def __repr__(self):
-        	ret_obj = {'repo_name':'', 'developer':[]}
-		dev_arr = []
-		ret_obj['repo_name'] = self.repo_name
-		for dev in self.developer:
-			dev_arr.append(repr(dev))
-		ret_obj['developers'] = dev_arr 
-		return ret_obj '''
-
+		self.graph = graph	
 class Mailer:
 	def __init__(self, mail_smtp, mail_from, mail_password):
 		self.server = smtplib.SMTP(mail_smtp)
-#		server.elho()
 		print mail_smtp
 		print mail_from
 		print mail_password
@@ -112,19 +87,14 @@ def getGraph(dir):
 
 def getContent():
 	for repo in repos:
-	#	print '**************************\n'+repo+'\n******************\n';
 		rep = Repo(repo['name'])
 		committers = getCommitters(repo['path'])
 		dev_array = []
 		rep.graph = getGraph(repo['path'])
-	#	commmitters = committers.split('\\n')
-	#	print committers.split('\n')
 		for committer in committers.split('\n'):
 			if (len(committer)>0 and committer in devs):
-#				print committer
 				dev = Developer(committer)	
 				log_array = []
-	#			print 'Activity from '+ committer + '\n--------------------\n'
 				logs = getLogs(committer, repo['path'] )
 				if logs:
 					logs = logs.split('\n')
@@ -144,7 +114,6 @@ def getContent():
 						lo = Logs(subject, link, status, date)
 						log_array.append(lo)
 						dev.logs = log_array
-	#					print str(subject) + ' | ' + str(link) + ' | ' + str(status) + ' | ' + str(date)
 				else:
 					dev.logs = []
 				dev_array.append(dev)
@@ -162,10 +131,3 @@ for recipient in recipients:
 	mail_obj.sendMail(recipient['email'], mail_body)
 
 mail_obj.kill()
-
-#getCommitters('/home/ubuntu/development/edfrontend_v4/.git')
-#print "Front end log \n-------------------"
-#print frontend_log.stdout.read()
-#print "Back end log \n----------------"
-#print backend_log.stdout.read()
-#print "exiting now"
