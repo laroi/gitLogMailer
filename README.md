@@ -13,7 +13,7 @@ This is a simple python script which will fetch logs from git and send it as a m
 ### Git logging format
 For this mail to work perfectly. The commit message should have specific format. The format is commit message pipe (|) link pipe status in caps. Here 
 - commit message is the actual message you want to add
-- link is the link to the issue which you were trying to resolve 
+- link is the link to the issue or feature which you were trying to resolve or implement
 - status is the current status of the todo (INPROGRESS | COMPLETED) 
 
 `commit message | link | STATUS`
