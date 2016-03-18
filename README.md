@@ -1,5 +1,5 @@
 # Git Log Mailer
-This is a simple python script which will fetch logs from git and send it as a mail. All the configurations are defiend in config.py
+This is a simple python script which will fetch logs from git and send it as a mail. All the configurations are defined in config.py
 
 ## Dependencies
 ### Libraries
