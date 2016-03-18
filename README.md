@@ -54,4 +54,4 @@ For this mail to work perfectly. The commit message should have specific format.
   This is the location of the template file <br>
   `template_folder='/home/ubuntu/script/emailSend'`
 ## Important Note
-  This script uses `subprocess.check_output` with argument `shell = True`, which is discouraged due to security reasons ad could be a threat if used without proper knowledge. Read more about that [here] (https://docs.python.org/2/library/subprocess.html#frequently-used-arguments) 
+  This script uses `subprocess.check_output` with argument `shell = True`, which is discouraged due to security reasons and could be a threat if used without proper knowledge. Read more about that [here] (https://docs.python.org/2/library/subprocess.html#frequently-used-arguments) 
